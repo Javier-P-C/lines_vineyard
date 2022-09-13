@@ -22,6 +22,8 @@ To connect the camera with the ROS initialize a roscore and execute:
 
 $ rosrun usb_cam usb_cam_node _video_device:=/dev/video0 _pixel_format:=yuyv  
 
+Parameter "/dev/video0" can change depending on where is the device detected. (/dev/video2 worked for us)
+
 If the error "Unable to locate package ros-noetic-usb-cam" appear, clone the package to your workspace/src:
 
 $ git clone https://github.com/bosch-ros-pkg/usb_cam.git

@@ -1,6 +1,12 @@
 # lines_vineyard
 ROS package for research of crop row detection in vineyards. Worked in ROS Noetic
 
+## Software used
+
+This package was run using the following software
+-Linux Ubunt 20.04 (Install here:)
+-Ros Noetic (Install here: )
+
 ## WEBCAM
 Model: Logitech C525
 

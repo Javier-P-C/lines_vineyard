@@ -90,7 +90,7 @@ cv2.createTrackbar(low_S_name, window_detection_name , low_S, max_value, on_low_
 cv2.createTrackbar(high_S_name, window_detection_name , high_S, max_value, on_high_S_thresh_trackbar)
 cv2.createTrackbar(low_V_name, window_detection_name , low_V, max_value, on_low_V_thresh_trackbar)
 cv2.createTrackbar(high_V_name, window_detection_name , high_V, max_value, on_high_V_thresh_trackbar)
-def camera_callback(data):
+def obtenerImagen(data):
     global bridge_object
     global cv_image
     global image_received
@@ -131,5 +131,5 @@ def main():
 if __name__ == '__main__':
     pub=rospy.Publisher("segmented_image",Image,queue_size=10)
     rospy.init_node('filterCalibration', anonymous=True)
-    image_sub = rospy.Subscriber("/usb_cam/image_raw",Image,camera_callback)
+    image_sub = rospy.Subscriber("/usb_cam/image_raw",Image,obtenerImagen)
     main()

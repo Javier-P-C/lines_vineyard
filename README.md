@@ -1,11 +1,18 @@
 # lines_vineyard
 ROS package for research of crop row detection in vineyards. Worked in ROS Noetic
 
-## Software used
+# Software used
 
 This package was run using the following software
 -Linux Ubunt 20.04 (Install here:)
 -Ros Noetic (Install here: )
+
+## Opencv
+
+Opencv version 4.6.0.66 is used in this pacakge. 
+To install use: pip install opencv-python
+Open cv documentation can be found here: https://docs.opencv.org/4.x/index.html
+
 
 ## WEBCAM
 Model: Logitech C525

@@ -70,7 +70,7 @@ class LineDetection():
                 y0 = b * rho
                 pt1 = (int(x0 + 1000*(-b)), int(y0 + 1000*(a)))
                 pt2 = (int(x0 - 1000*(-b)), int(y0 - 1000*(a)))
-                cv2.line(image, pt1, pt2, (0,255,255), 3)
+                cv2.line(self.image, pt1, pt2, (0,255,255), 3)
                 print('line',i)
 
         image_message = self.bridge.cv2_to_imgmsg(self.cvImage, encoding="passthrough")

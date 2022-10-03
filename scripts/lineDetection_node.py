@@ -1,4 +1,4 @@
-#!/usr/bin/env python  
+#!/usr/bin/env python3
 
 #Node to detect lines from the image filtered
 
@@ -32,7 +32,7 @@ class LineDetection():
         r = rospy.Rate(1) #1Hz  
         print("Node initialized 1hz") 
         while not rospy.is_shutdown():  
-            if not imageFlag:
+            if not self.imageFlag:
                 rospy.sleep(1)
                 continue
             self.imageProcess()
@@ -51,13 +51,13 @@ class LineDetection():
         try:
             self.imageFlag = 1
 
-            image = self.bridgeObject.imgmsg_to_cv2(data)
+            self.image = self.bridgeObject.imgmsg_to_cv2(data)
         except:
             return
 
     def imageProcess(self):
     #cvImage = cv2.imread('dave.jpg')
-        edges = cv2.Canny(cvImage,50,150,apertureSize = 3)
+        edges = cv2.Canny(self.cvImage,50,150,apertureSize = 3)
         cv2.imshow('edges',edges)
         lines = cv2.HoughLines(edges,1,np.pi/180,200) 
         if lines is not None:
@@ -73,9 +73,9 @@ class LineDetection():
                 cv2.line(image, pt1, pt2, (0,255,255), 3)
                 print('line',i)
 
-        image_message = bridge.cv2_to_imgmsg(cvImage, encoding="passthrough")
+        image_message = self.bridge.cv2_to_imgmsg(self.cvImage, encoding="passthrough")
         self.pub.publish(image_message)  
-        cv2.imshow("SegmentedImage",image)
+        cv2.imshow("SegmentedImage",self.image)
         cv2.waitKey(1)
 
     def cleanup(self):  

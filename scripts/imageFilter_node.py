@@ -1,4 +1,4 @@
-#!/usr/bin/env python  
+#!/usr/bin/env python3 
 
 #Code to filter the iamge with HSV values
 

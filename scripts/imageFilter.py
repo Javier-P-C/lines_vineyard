@@ -29,11 +29,11 @@ def filtroColor(image):
     # min_color = np.array([38,11,146])
     # max_color = np.array([162,38,178])
 
-    min_color = np.array([0,0,0])
-    max_color = np.array([180,63,152])
+    #min_color = np.array([0,0,0])
+    #max_color = np.array([180,63,152])
     
-    # min_color = np.array([0,0,51])
-    # max_color = np.array([103,50,126])
+    min_color = np.array([0,0,51])
+    max_color = np.array([103,50,126])
 
     #This is the actual color detection 
     #Here we will create a mask that contains only the colors defined in your limits

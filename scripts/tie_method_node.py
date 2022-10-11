@@ -1,6 +1,6 @@
 #!/usr/bin/env python3 
 
-#Code to filter the iamge with GExG
+#Code to filter the image with the otsu threshold
 
 import cv2
 import matplotlib.pyplot as plt
@@ -14,7 +14,7 @@ class ImageFilter():
     def __init__(self):  
         rospy.on_shutdown(self.cleanup)  
         ###******* INIT PUBLISHERS *******###  
-        self.pub=rospy.Publisher("gexgImage",Image,queue_size=10)
+        self.pub=rospy.Publisher("otsuImage",Image,queue_size=10)
 
         ############################### SUBSCRIBERS #####################################   
         self.image_sub = rospy.Subscriber("/usb_cam/image_raw",Image,self.camera_callback) 
@@ -34,30 +34,24 @@ class ImageFilter():
                 r.sleep()  
         cv2.destroyAllWindows()        
 
-    def erosion(self,nombre):
-        kernel = np.array([[1,1,1],[1,1,1],[1,1,1]])
-        imagen_erosion = cv2.morphologyEx(nombre,cv2.MORPH_ERODE,kernel)
-        return imagen_erosion  
 
-    def grayscale(self,image):
-        x,y,z = image.shape
-        gexg = np.zeros([x,y])
-        r = image[:,:,0]
-        g = image[:,:,1]
-        b = image[:,:,2]
+    def image_processing(self,image):
+        gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        blur = cv2.GaussianBlur(gray,(5,5),0)
+        ret,otsu = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
-        x,y = r.shape
+        x,y = otsu.shape
+        maxval = 0
+        otsu[0,639]
+        for i in range(y):
+            value = np.sum(otsu[:,i])
+            if value > maxval:
+                maxval = value
+                index = i
+        
+        cv2.line(image,(index,0),(index,x),(255,0,0),9)
 
-        for i in range(x-1):
-            for j in range (y-1):
-                if g[i,j] < r[i,j] or g[i,j] < b[i,j]:
-                    gexg[i,j] = 0
-                else:
-                    gexg[i,j] = 2*g[i,j]-r[i,j]-b[i,j]
-
-
-        gexg = gexg.astype('uint8')
-        return gexg
+        return image
 
          
     def camera_callback(self,data):
@@ -67,7 +61,7 @@ class ImageFilter():
             # We select bgr8 because its the OpenCV encoding by default
             self.cv_image = self.bridge_object.imgmsg_to_cv2(data, desired_encoding="bgr8")
             inicio = time.time()
-            image = self.grayscale(self.cv_image)
+            image = self.image_processing(self.cv_image)
             fin = time.time()
             print(fin-inicio)
             image_message = self.bridge.cv2_to_imgmsg(image, encoding="passthrough")
@@ -84,5 +78,5 @@ class ImageFilter():
 
 ############################### MAIN PROGRAM ####################################  
 if __name__ == "__main__":  
-    rospy.init_node('opencv_GExG', anonymous=True)
+    rospy.init_node('opencv_otsu', anonymous=True)
     ImageFilter() 
